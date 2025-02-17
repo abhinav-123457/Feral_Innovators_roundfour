@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <img id="error-image" src="WhatsApp Image 2025-02-17 at 15.34.33 (1).svg" alt="Lost in the Void">
+
+      
+    <title>Error 404 - Lost in the Void</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle, #0d0d0d, #000000);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 🔥 Glitch Effect */
+.glitch-container {
+    text-align: center;
+}
+
+.glitch {
+    font-size: 100px;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    color: white;
+    animation: glitch 1.5s infinite;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0.8;
+}
+#error-image {
+    width: 300px;  /* Adjust size */
+    display: block;
+    margin: 20px auto;  /* Center it */
+}
+
+
+.glitch::before {
+    color: cyan;
+    top: -2px;
+    left: -2px;
+    animation: glitchEffect 0.8s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    color: magenta;
+    top: 2px;
+    left: 2px;
+    animation: glitchEffect 0.8s infinite linear alternate-reverse reverse;
+}
+
+@keyframes glitchEffect {
+    0% { clip-path: inset(20% 0 0 0); }
+    25% { clip-path: inset(40% 0 10% 0); }
+    50% { clip-path: inset(60% 0 30% 0); }
+    75% { clip-path: inset(80% 0 50% 0); }
+    100% { clip-path: inset(100% 0 70% 0); }
+}
+
+/* 📺 Static Glitch Overlay */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* 👀 Floating Eyes */
+.eyes {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+}
+
+.eye {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.pupil {
+    width: 15px;
+    height: 15px;
+    background: black;
+    border-radius: 50%;
+    position: absolute;
+    transition: transform 0.1s ease-out;
+}
+
+/* 👻 Floating Particles */
+#particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+#team-logo {
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+</style>
+<body>
+    <div class="glitch-container">
+        <h1 class="glitch" data-text="ERROR 404">ERROR 404</h1>
+        <p class="message">Page Not Found <br> There is no escape.</p>
+    </div>
+
+    <canvas id="particles"></canvas>
+    
+    <script>
+        const eyes = document.querySelectorAll(".eye .pupil");
+
+document.addEventListener("mousemove", (event) => {
+    let x = event.clientX;
+    let y = event.clientY;
+
+    eyes.forEach((pupil) => {
+        let eye = pupil.parentElement.getBoundingClientRect();
+        let eyeX = eye.left + eye.width / 2;
+        let eyeY = eye.top + eye.height / 2;
+
+        let deltaX = x - eyeX;
+        let deltaY = y - eyeY;
+        let angle = Math.atan2(deltaY, deltaX);
+
+        let distance = Math.min(eye.width / 4, Math.hypot(deltaX, deltaY));
+        let moveX = Math.cos(angle) * distance;
+        let moveY = Math.sin(angle) * distance;
+
+        pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+});
+
+/* 👻 Floating Particles */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particlesArray = [];
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 1.5 - 0.75;
+        this.speedY = Math.random() * 1.5 - 0.75;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x <= 0 || this.x >= canvas.width) this.speedX *= -1;
+        if (this.y <= 0 || this.y >= canvas.height) this.speedY *= -1;
+    }
+    draw() {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    for (let i = 0; i < 100; i++) {
+        particlesArray.push(new Particle());
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+    }
+
+    requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
+
+/* Adjust canvas on resize */
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+    </script>
+</body>
+</html>
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle, #0d0d0d, #000000);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 🔥 Glitch Effect */
+.glitch-container {
+    text-align: center;
+}
+
+.glitch {
+    font-size: 100px;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    color: white;
+    animation: glitch 1.5s infinite;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0.8;
+}
+
+.glitch::before {
+    color: cyan;
+    top: -2px;
+    left: -2px;
+    animation: glitchEffect 0.8s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    color: magenta;
+    top: 2px;
+    left: 2px;
+    animation: glitchEffect 0.8s infinite linear alternate-reverse reverse;
+}
+
+@keyframes glitchEffect {
+    0% { clip-path: inset(20% 0 0 0); }
+    25% { clip-path: inset(40% 0 10% 0); }
+    50% { clip-path: inset(60% 0 30% 0); }
+    75% { clip-path: inset(80% 0 50% 0); }
+    100% { clip-path: inset(100% 0 70% 0); }
+}
+
+/* 📺 Static Glitch Overlay */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* 👻 Floating Particles */
+#particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particlesArray = [];
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 1.5 - 0.75;
+        this.speedY = Math.random() * 1.5 - 0.75;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x <= 0 || this.x >= canvas.width) this.speedX *= -1;
+        if (this.y <= 0 || this.y >= canvas.height) this.speedY *= -1;
+    }
+    draw() {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    for (let i = 0; i < 100; i++) {
+        particlesArray.push(new Particle());
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+    }
+
+    requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
+
+/* Adjust canvas on resize */
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
